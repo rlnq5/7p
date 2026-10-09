@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="theme-color" content="#f4f3e8">
+    <title>مشروع طاقة الوطن المتجددة - رغد العتيبي</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f4f3e8;
+            --card-bg: #092e20;
+            --accent-color: #e5bd6f;
+            --text-white: #fff;
+            --text-muted: #9ab0a5;
+            --text-dark: #123024;
+            --text-green: #256a4e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Cairo", sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 16px 12px 28px;
+            overflow-x: hidden;
+            background: var(--bg-color);
+            color: var(--text-dark);
+        }
+
+        button, summary {
+            font: inherit;
+        }
+
+        .container {
+            width: min(100%, 520px);
+            margin: 0 auto;
+        }
+
+        .top-navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin: 2px 4px 25px;
+        }
+
+        .logo-text h1 {
+            font-size: 1rem;
+            font-weight: 800;
+            line-height: 1.35;
+        }
+
+        .logo-text p {
+            color: #7a8274;
+            font-size: 0.7rem;
+        }
+
+        .badge {
+            padding: 6px 11px;
+            border-radius: 20px;
+            background: #e7e7da;
+            color: var(--text-dark);
+            font-size: 0.72rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .badge-active {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #dbe4dc;
+            color: var(--text-green);
+        }
+
+        .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #2da171;
+        }
+
+        .intro-section {
+            padding: 0 10px;
+            margin-bottom: 22px;
+        }
+
+        .sub-tag {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 7px;
+            color: #7a8274;
+            font-size: 0.82rem;
+        }
+
+        .sub-tag::after {
+            width: 28px;
+            height: 2px;
+            background: #7a8274;
+            content: "";
+        }
+
+        .main-heading {
+            margin-bottom: 10px;
+            font-size: clamp(1.55rem, 7vw, 1.9rem);
+            font-weight: 800;
+            line-height: 1.35;
+        }
+
+        .main-heading span {
+            color: var(--text-green);
+        }
+
+        .description-text {
+            color: #555e52;
+            font-size: 0.86rem;
+            line-height: 1.8;
+        }
+
+        .simulation-card {
+            position: relative;
+            padding: 18px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            border-radius: 24px;
+            background: var(--card-bg);
+            box-shadow: 0 15px 35px rgb(9 46 32 / 15%);
+            color: var(--text-white);
+        }
+
+        .sim-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .sim-title {
+            font-size: 0.96rem;
+            font-weight: 700;
+        }
+
+        .sim-status {
+            padding: 3px 8px;
+            border-radius: 10px;
+            background: rgb(255 255 255 / 5%);
+            color: var(--text-muted);
+            font-size: 0.72rem;
+            white-space: nowrap;
+        }
+
+        .labels-layer {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 4px;
+            margin-bottom: 9px;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        .canvas-container {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            border-radius: 16px;
+            touch-action: none;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #0e402e 0%, #092e20 100%);
+        }
+
+        .instruction-text {
+            padding: 8px;
+            margin-bottom: 16px;
+            border-radius: 20px;
+            background: rgb(255 255 255 / 4%);
+            color: var(--text-muted);
+            font-size: 0.74rem;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 6px;
+            padding-top: 12px;
+            margin-bottom: 16px;
+            border-top: 1px solid rgb(255 255 255 / 9%);
+            text-align: center;
+        }
+
+        .stat-box .label {
+            display: block;
+            margin-bottom: 2px;
+            color: var(--text-muted);
+            font-size: 0.69rem;
+        }
+
+        .stat-box .value {
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .stat-box .unit {
+            color: var(--text-muted);
+            font-size: 0.68rem;
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            display: flex;
+            min-height: 48px;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            padding: 10px 6px;
+            border: 1px solid transparent;
+            border-radius: 13px;
+            cursor: pointer;
+            font-size: 0.83rem;
+            font-weight: 700;
+            transition: background 0.15s ease, transform 0.15s ease;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn:focus-visible, summary:focus-visible {
+            outline: 3px solid #e5bd6f;
+            outline-offset: 3px;
+        }
+
+        .btn-boost {
+            flex: 1.8;
+            background: var(--accent-color);
+            color: #1a1a1a;
+        }
+
+        .btn-boost:hover {
+            background: #d1ab60;
+        }
+
+        .btn-secondary, .btn-reset {
+            flex: 1.1;
+            border-color: rgb(255 255 255 / 17%);
+            background: transparent;
+            color: var(--text-white);
+        }
+
+        .btn-secondary:hover, .btn-reset:hover {
+            background: rgb(255 255 255 / 7%);
+        }
+
+        .info-accordion {
+            margin-bottom: 12px;
+            overflow: hidden;
+            border: 1px solid #edf0ec;
+            border-radius: 18px;
+            background: #fafbfa;
+            box-shadow: 0 4px 12px rgb(0 0 0 / 2%);
+        }
+
+        .accordion-header {
+            display: flex;
+            min-height: 54px;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            cursor: pointer;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            font-weight: 700;
+            list-style: none;
+        }
+
+        .accordion-header::-webkit-details-marker {
+            display: none;
+        }
+
+        .accordion-header:hover {
+            background: #f4f6f3;
+        }
+
+        .accordion-icon {
+            color: var(--text-green);
+            font-size: 0.8rem;
+            transition: transform 0.2s ease;
+        }
+
+        .info-accordion[open] .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            padding: 14px 16px 17px;
+            border-top: 1px solid #f0f3ef;
+            background: #fff;
+            color: #555;
+            font-size: 0.83rem;
+            line-height: 1.8;
+        }
+
+        .steps-list {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 8px;
+            list-style: none;
+        }
+
+        .step-item {
+            color: #555;
+            font-size: 0.7rem;
+            line-height: 1.65;
+        }
+
+        .step-number {
+            display: inline-grid;
+            width: 19px;
+            height: 19px;
+            place-items: center;
+            margin-left: 3px;
+            border-radius: 50%;
+            background: #eef2ed;
+            color: #4a7055;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .student-footer-card {
+            padding: 17px 18px;
+            margin-top: 22px;
+            border-right: 5px solid var(--accent-color);
+            border-radius: 20px;
+            background: linear-gradient(135deg, #092e20 0%, #114230 100%);
+            box-shadow: 0 10px 25px rgb(9 46 32 / 15%);
+            color: #fff;
+        }
+
+        .footer-title {
+            margin-bottom: 5px;
+            color: var(--accent-color);
+            font-size: 0.84rem;
+            font-weight: 700;
+        }
+
+        .student-footer-card p {
+            color: #d6e0da;
+            font-size: 0.82rem;
+        }
+
+        @media (max-width: 360px) {
+            .simulation-card {
+                padding: 14px;
+            }
+
+            .sim-title {
+                font-size: 0.82rem;
+            }
+
+            .btn {
+                font-size: 0.74rem;
+            }
+
+            .steps-list {
+                gap: 5px;
+            }
+
+            .step-item {
+                font-size: 0.65rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <header class="top-navbar">
+            <div class="logo-text">
+                <h1>طاقة الوطن</h1>
+                <p>نحو مستقبل مستدام</p>
+            </div>
+            <div class="badge badge-active"><span class="dot" aria-hidden="true"></span>طاقة متجددة</div>
+        </header>
+
+        <section class="intro-section" aria-labelledby="mainHeading">
+            <p class="sub-tag">مشروع تعليمي تفاعلي</p>
+            <h2 class="main-heading" id="mainHeading">اكتشف طاقة <span>الرياح</span></h2>
+            <p class="description-text">جرّب كيف يمكن لحركة الهواء أن تجمع الجسيمات وتحوّلها إلى طاقة في هذه المحاكاة التعليمية.</p>
+        </section>
+
+        <section class="simulation-card" aria-label="محاكاة حركة الجسيمات">
+            <div class="sim-header">
+                <h3 class="sim-title">🍃 حركة الجسيمات في مزرعة الرياح</h3>
+                <div class="sim-status" id="simStatusText" role="status" aria-live="polite">المحاكاة تعمل</div>
+            </div>
+
+            <div class="labels-layer" aria-hidden="true">
+                <span>مصادر الرياح</span>
+                <span>نقطة الجذب</span>
+            </div>
+
+            <div class="canvas-container" id="canvasContainer">
+                <canvas id="simCanvas" aria-label="جسيمات تتحرك باتجاه نقطة الجذب. حرّك المؤشر أو اسحب لتغيير موقعها."></canvas>
+            </div>
+
+            <p class="instruction-text">حرّك المؤشر أو اسحب بإصبعك لتغيير نقطة جذب الجسيمات</p>
+
+            <div class="stats-grid" aria-label="إحصائيات المحاكاة">
+                <div class="stat-box">
+                    <span class="label">التسارع الحالي</span>
+                    <span class="value" id="valAccel">1.0</span> <span class="unit">m/s²</span>
+                </div>
+                <div class="stat-box">
+                    <span class="label">الطاقة المولّدة</span>
+                    <span class="value" id="valEnergy">0</span> <span class="unit">جول</span>
+                </div>
+                <div class="stat-box">
+                    <span class="label">جسيمات وصلت</span>
+                    <span class="value" id="valParticles">0</span>
+                </div>
+            </div>
+
+            <div class="controls-row">
+                <button class="btn btn-boost" id="btnBoost" type="button">⚡ تعزيز التسارع</button>
+                <button class="btn btn-secondary" id="btnPause" type="button" aria-pressed="false">⏸️ إيقاف</button>
+                <button class="btn btn-reset" id="btnReset" type="button">🔄 إعادة</button>
+            </div>
+        </section>
+
+        <details class="info-accordion">
+            <summary class="accordion-header">
+                <span>❓ كيف تعمل المحاكاة؟</span>
+                <span class="accordion-icon" aria-hidden="true">▼</span>
+            </summary>
+            <div class="accordion-content">
+                <ol class="steps-list">
+                    <li class="step-item"><span class="step-number">١</span> وجّه المؤشر أو اسحب بإصبعك لتحريك نقطة الجذب.</li>
+                    <li class="step-item"><span class="step-number">٢</span> عزّز التسارع لزيادة سرعة الجسيمات.</li>
+                    <li class="step-item"><span class="step-number">٣</span> اجمع الجسيمات لمشاهدة ارتفاع الطاقة في النموذج.</li>
+                </ol>
+            </div>
+        </details>
+
+        <details class="info-accordion">
+            <summary class="accordion-header">
+                <span>🌱 لماذا نستخدم طاقة الرياح؟</span>
+                <span class="accordion-icon" aria-hidden="true">▼</span>
+            </summary>
+            <div class="accordion-content">
+                تستفيد توربينات الرياح من حركة الهواء لإنتاج الكهرباء دون حرق الوقود أثناء التشغيل. وتبقى هذه المحاكاة نموذجاً مبسطاً للتعلّم، وليست حساباً هندسياً لإنتاج الطاقة الفعلي.
+            </div>
+        </details>
+
+        <footer class="student-footer-card">
+            <div class="footer-title">مشروع طاقة الوطن المتجددة</div>
+            <p>إعداد الطالبة: رغد العتيبي</p>
+        </footer>
+    </main>
+
+    <script>
+        (() => {
+            const canvas = document.getElementById("simCanvas");
+            const ctx = canvas.getContext("2d");
+            const container = document.getElementById("canvasContainer");
+            const statusText = document.getElementById("simStatusText");
+            const accelValue = document.getElementById("valAccel");
+            const energyValue = document.getElementById("valEnergy");
+            const particlesValue = document.getElementById("valParticles");
+            const pauseButton = document.getElementById("btnPause");
+
+            let width = 0;
+            let height = 0;
+            let pixelRatio = 1;
+            let isRunning = true;
+            let acceleration = 1;
+            let energyGenerated = 0;
+            let particlesReached = 0;
+            let lastFrame = 0;
+            const attractor = { x: 0, y: 0, radius: 22 };
+            const particles = [];
+            const maxParticles = 55;
+
+            function resize() {
+                const rect = container.getBoundingClientRect();
+                const previousWidth = width;
+                const previousHeight = height;
+                width = rect.width;
+                height = rect.height;
+                pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+                canvas.width = Math.round(width * pixelRatio);
+                canvas.height = Math.round(height * pixelRatio);
+                ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+
+                if (previousWidth && previousHeight) {
+                    attractor.x = (attractor.x / previousWidth) * width;
+                    attractor.y = (attractor.y / previousHeight) * height;
+                } else {
+                    attractor.x = width / 2;
+                    attractor.y = height / 2;
+                }
+                draw();
+            }
+
+            class Particle {
+                constructor() {
+                    this.x = 0;
+                    this.y = 0;
+                    this.vx = 0;
+                    this.vy = 0;
+                    this.size = 0;
+                    this.reset(true);
+                }
+
+                reset(initial = false) {
+                    const edge = Math.floor(Math.random() * 4);
+                    if (edge === 0) {
+                        this.x = Math.random() * width;
+                        this.y = 0;
+                    } else if (edge === 1) {
+                        this.x = width;
+                        this.y = Math.random() * height;
+                    } else if (edge === 2) {
+                        this.x = Math.random() * width;
+                        this.y = height;
+                    } else {
+                        this.x = 0;
+                        this.y = Math.random() * height;
+                    }
+
+                    if (initial) {
+                        const offset = Math.random();
+                        this.x = this.x * (1 - offset) + Math.random() * width * offset;
+                        this.y = this.y * (1 - offset) + Math.random() * height * offset;
+                    }
+                    this.vx = 0;
+                    this.vy = 0;
+                    this.size = 1.4 + Math.random() * 2;
+                }
+
+                update(delta) {
+                    const dx = attractor.x - this.x;
+                    const dy = attractor.y - this.y;
+                    const distance = Math.hypot(dx, dy) || 1;
+                    const force = acceleration * 34 * delta;
+                    this.vx += (dx / distance) * force;
+                    this.vy += (dy / distance) * force;
+
+                    const maxSpeed = 45 + acceleration * 35;
+                    const speed = Math.hypot(this.vx, this.vy);
+                    if (speed > maxSpeed) {
+                        this.vx = (this.vx / speed) * maxSpeed;
+                        this.vy = (this.vy / speed) * maxSpeed;
+                    }
+
+                    this.x += this.vx * delta;
+                    this.y += this.vy * delta;
+
+                    if (distance < attractor.radius + this.size) {
+                        particlesReached += 1;
+                        energyGenerated += 10 * acceleration;
+                        this.reset();
+                        updateStats();
+                    }
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.fillStyle = "rgba(229, 189, 111, 0.9)";
+                    ctx.shadowColor = "rgba(229, 189, 111, 0.65)";
+                    ctx.shadowBlur = 8;
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                }
+            }
+
+            function drawAttractor() {
+                const pulse = 1 + Math.sin(performance.now() / 280) * 0.06;
+                ctx.beginPath();
+                ctx.arc(attractor.x, attractor.y, attractor.radius * pulse, 0, Math.PI * 2);
+                ctx.fillStyle = "rgba(229, 189, 111, 0.12)";
+                ctx.fill();
+                ctx.lineWidth = 1.5;
+                ctx.strokeStyle = "rgba(229, 189, 111, 0.75)";
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(attractor.x, attractor.y, 4, 0, Math.PI * 2);
+                ctx.fillStyle = "#e5bd6f";
+                ctx.fill();
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, width, height);
+                for (const particle of particles) {
+                    particle.draw();
+                }
+                drawAttractor();
+            }
+
+            function updateStats() {
+                accelValue.textContent = acceleration.toFixed(1);
+                energyValue.textContent = Math.floor(energyGenerated).toLocaleString("ar");
+                particlesValue.textContent = particlesReached.toLocaleString("ar");
+            }
+
+            function animate(timestamp) {
+                const delta = lastFrame ? Math.min((timestamp - lastFrame) / 1000, 0.04) : 0;
+                lastFrame = timestamp;
+                if (isRunning) {
+                    for (const particle of particles) {
+                        particle.update(delta);
+                    }
+                }
+                draw();
+                requestAnimationFrame(animate);
+            }
+
+            function moveAttractor(event) {
+                const rect = canvas.getBoundingClientRect();
+                attractor.x = Math.max(0, Math.min(width, event.clientX - rect.left));
+                attractor.y = Math.max(0, Math.min(height, event.clientY - rect.top));
+            }
+
+            canvas.addEventListener("pointermove", moveAttractor);
+
+            document.getElementById("btnBoost").addEventListener("click", () => {
+                acceleration = acceleration >= 5 ? 1 : Math.round((acceleration + 0.5) * 10) / 10;
+                updateStats();
+            });
+
+            pauseButton.addEventListener("click", () => {
+                isRunning = !isRunning;
+                pauseButton.setAttribute("aria-pressed", String(!isRunning));
+                pauseButton.textContent = isRunning ? "⏸️ إيقاف" : "▶️ متابعة";
+                statusText.textContent = isRunning ? "المحاكاة تعمل" : "المحاكاة متوقفة";
+            });
+
+            document.getElementById("btnReset").addEventListener("click", () => {
+                acceleration = 1;
+                energyGenerated = 0;
+                particlesReached = 0;
+                attractor.x = width / 2;
+                attractor.y = height / 2;
+                for (const particle of particles) {
+                    particle.reset(true);
+                }
+                updateStats();
+                draw();
+            });
+
+            resize();
+            for (let index = 0; index < maxParticles; index += 1) {
+                particles.push(new Particle());
+            }
+            window.addEventListener("resize", resize);
+            window.addEventListener("orientationchange", () => window.setTimeout(resize, 200));
+            updateStats();
+            requestAnimationFrame(animate);
+        })();
+    </script>
+</body>
+</html>
